@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Background Colors */
+  --bg-primary: #0A0F1C;
+  --bg-secondary: #141B2D;
+  --bg-card: rgba(20, 27, 45, 0.7);
+  
+  /* Text Colors */
+  --text-primary: #E4E8F1;
+  --text-secondary: #94A3B8;
+  --text-accent: #38BDF8;
+  
+  /* Accent Colors */
+  --accent-primary: #38BDF8;
+  --accent-secondary: #0EA5E9;
+  --accent-success: #22C55E;
+  --accent-warning: #F59E0B;
+  
+  /* Borders */
+  --border-primary: rgba(255, 255, 255, 0.15);
+  --border-accent: rgba(56, 189, 248, 0.5);
+  
+  /* Effects */
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --neon-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    @apply scroll-smooth;
+  }
+
+  body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-dark;
+  }
+
+  /* Style par défaut pour tous les inputs et selects */
+  input, select, textarea {
+    @apply text-black bg-white;
+  }
+
+  /* Style pour les options des selects */
+  option {
+    @apply bg-white text-black;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-gradient-to-br from-white/10 via-white/5 to-transparent
+    backdrop-blur-xl border border-white/20 rounded-xl 
+    shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_8px_16px_rgba(0,0,0,0.2)]
+    dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_8px_24px_rgba(0,0,0,0.3)]
+    transition-all duration-300 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_12px_24px_rgba(0,0,0,0.3)];
+  }
+
+  .glass-button {
+    @apply relative px-5 py-3 rounded-xl transition-all duration-300
+    bg-gradient-to-br from-white/15 via-white/10 to-transparent
+    hover:from-white/20 hover:via-white/15 hover:to-transparent
+    border border-white/20 hover:border-white/30
+    shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.2)]
+    hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_6px_12px_rgba(0,0,0,0.3)]
+    active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]
+    active:translate-y-0.5
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:translate-y-0
+    focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-1 focus:ring-offset-dark;
+  }
+
+  .glass-button.active {
+    @apply bg-gradient-to-br from-accent via-accent-light to-accent/80
+    hover:from-accent hover:via-accent-light hover:to-accent/90
+    border-accent/50 hover:border-accent
+    text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_8px_rgba(56,189,248,0.3)]
+    hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.25),0_6px_12px_rgba(56,189,248,0.4)]
+    active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)];
+  }
+
+  .glass-button:not(.active):not(:hover) {
+    @apply text-text-secondary;
+  }
+
+  .glass-input {
+    @apply w-full bg-white
+    border border-white/15 rounded-xl
+    text-black placeholder-gray-500
+    focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/20
+    shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]
+    transition-all duration-300 px-5 py-3;
+  }
+
+  /* Styles spécifiques pour le DatePicker */
+  .react-datepicker-wrapper {
+    @apply w-full;
+  }
+
+  .react-datepicker {
+    @apply bg-white border-gray-200 rounded-xl;
+  }
+
+  .react-datepicker__header {
+    @apply bg-gray-50 border-gray-200 rounded-t-xl pt-4;
+  }
+
+  .react-datepicker__current-month {
+    @apply text-gray-900 font-semibold;
+  }
+
+  .react-datepicker__day-name {
+    @apply text-gray-600;
+  }
+
+  .react-datepicker__day {
+    @apply text-gray-900 hover:bg-accent hover:text-white rounded-lg;
+  }
+
+  .react-datepicker__day--selected {
+    @apply bg-accent text-white font-semibold;
+  }
+
+  .react-datepicker__day--keyboard-selected {
+    @apply bg-accent text-white;
+  }
+
+  .react-datepicker__input-container input {
+    @apply text-black;
+  }
+}

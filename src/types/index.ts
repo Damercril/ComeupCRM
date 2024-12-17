@@ -1,0 +1,1 @@
+export type ViewType = 'dashboard' | 'operators' | 'drivers' | 'workspace';
