@@ -1,14 +1,27 @@
 import React from 'react';
 import { Phone, TrendingUp, Clock } from 'lucide-react';
 import { ApiDriver } from '../../services/driverServiceApi';
+
 interface StatsProps {
   driver: ApiDriver;
+  todayCalls?: number;
+  avgCallDuration?: string;
 }
-export default function OperatorStats({driver}:StatsProps) {
+
+export default function OperatorStats({
+  driver, 
+  todayCalls = 0,
+  avgCallDuration = '0:00'
+}: StatsProps) {
   const stats = {
-    todayCalls: 25,
-    totalRevenue: driver.revenuTotal ?? 0,
-    avgCallDuration: '4:30'
+    todayCalls,
+    totalRevenue: (driver.revenuTotal ?? 0) * 0.03,
+    avgCallDuration
+  };
+
+  const formatRevenue = (amount: number) => {
+    const roundedAmount = Math.round(amount);
+    return roundedAmount.toLocaleString('fr-FR');
   };
 
   return (
@@ -28,9 +41,9 @@ export default function OperatorStats({driver}:StatsProps) {
           <TrendingUp className="w-5 h-5 text-accent-success" />
         </div>
         <div>
-          <p className="text-sm text-text-secondary">CA Généré</p>
+          <p className="text-sm text-text-secondary">CA Généré (3%)</p>
           <p className="text-lg font-semibold text-text-primary">
-            {stats.totalRevenue} FCFA
+            {formatRevenue(stats.totalRevenue)} FCFA
           </p>
         </div>
       </div>
@@ -40,7 +53,7 @@ export default function OperatorStats({driver}:StatsProps) {
           <Clock className="w-5 h-5 text-accent-warning" />
         </div>
         <div>
-          <p className="text-sm text-text-secondary">Temps moyen d'appel</p>
+          <p className="text-sm text-text-secondary">Temps moyen par fiche</p>
           <p className="text-lg font-semibold text-text-primary">{stats.avgCallDuration}</p>
         </div>
       </div>

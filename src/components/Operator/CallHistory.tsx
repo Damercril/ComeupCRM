@@ -7,16 +7,17 @@ interface CallLog {
   status: string;
   duration: string;
   note: string;
-  callbackDate?: string;
+  callback_date?: string;
 }
 
 interface CallHistoryProps {
-  callHistory: CallLog[];
+  call_history: CallLog[];
+  is_loading: boolean;
 }
 
-export default function CallHistory({ callHistory }: CallHistoryProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const displayedHistory = isExpanded ? callHistory : callHistory.slice(0, 3);
+const CallHistory: React.FC<CallHistoryProps> = ({ call_history, is_loading = false }) => {
+  const [is_expanded, setIsExpanded] = useState(false);
+  const displayed_history = is_expanded ? call_history : call_history.slice(0, 3);
 
   const CallNote = ({ call }: { call: CallLog }) => (
     <div className="p-4 hover:bg-white/5 transition-colors">
@@ -44,10 +45,10 @@ export default function CallHistory({ callHistory }: CallHistoryProps) {
 
       <p className="text-white mb-2">{call.note}</p>
 
-      {call.callbackDate && (
+      {call.callback_date && (
         <div className="flex items-center space-x-2 text-text-secondary text-sm">
           <Calendar className="w-4 h-4" />
-          <span>Rappel prévu: {new Date(call.callbackDate).toLocaleDateString('fr-FR')}</span>
+          <span>Rappel prévu: {new Date(call.callback_date).toLocaleDateString('fr-FR')}</span>
         </div>
       )}
     </div>
@@ -61,24 +62,28 @@ export default function CallHistory({ callHistory }: CallHistoryProps) {
         </h3>
       </div>
 
-      {callHistory.length === 0 ? (
+      {is_loading ? (
+        <div className="p-4 text-text-secondary text-center">
+          Chargement...
+        </div>
+      ) : call_history.length === 0 ? (
         <div className="p-4 text-text-secondary text-center">
           Aucun historique d'appel disponible
         </div>
       ) : (
         <>
           <div className="divide-y divide-white/10">
-            {displayedHistory.map((call) => (
+            {displayed_history.map((call) => (
               <CallNote key={call.id} call={call} />
             ))}
           </div>
 
-          {callHistory.length > 3 && (
+          {call_history.length > 3 && (
             <button
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={() => setIsExpanded(!is_expanded)}
               className="w-full p-3 flex items-center justify-center space-x-2 text-text-secondary hover:text-text-primary transition-colors border-t border-white/10"
             >
-              {isExpanded ? (
+              {is_expanded ? (
                 <>
                   <ChevronUp className="w-4 h-4" />
                   <span>Voir moins</span>
@@ -86,7 +91,7 @@ export default function CallHistory({ callHistory }: CallHistoryProps) {
               ) : (
                 <>
                   <ChevronDown className="w-4 h-4" />
-                  <span>Voir plus ({callHistory.length - 3} appels)</span>
+                  <span>Voir plus ({call_history.length - 3} appels)</span>
                 </>
               )}
             </button>
@@ -95,4 +100,6 @@ export default function CallHistory({ callHistory }: CallHistoryProps) {
       )}
     </div>
   );
-}
+};
+
+export default CallHistory;

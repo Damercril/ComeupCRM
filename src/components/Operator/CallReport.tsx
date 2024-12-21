@@ -76,12 +76,18 @@ export default function CallReport({
             <div className="relative">
               <DatePicker
                 selected={callbackDate}
-                onChange={setCallbackDate}
+                onChange={(date: Date) => {
+                  console.log('Date selected:', date);
+                  setCallbackDate(date);
+                }}
                 locale={fr}
                 dateFormat="dd/MM/yyyy"
                 minDate={new Date()}
-                className="glass-input px-4 py-2 w-full [&:not(:placeholder-shown)]:text-black dark:text-text-primary"
+                className="glass-input px-4 py-2 w-full text-text-primary"
                 placeholderText="Sélectionner une date"
+                popperClassName="react-datepicker-popper"
+                popperPlacement="bottom-start"
+                showPopperArrow={false}
               />
             </div>
             {callbackDate && callbackDate > new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) && (
